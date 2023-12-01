@@ -37,10 +37,12 @@
   <!-- ======= Header ======= -->
   <header id="header">
     <div class="d-flex flex-column">
-
+      <!-- Displaying user data -->
+      <% if (user) { %>
       <div class="profile">
-        <img src="assets/img/diya5.jpg" alt="" class="img-fluid rounded-circle">
-        <h1 class="text-light"><a href="index.html">Diya Panchal</a></h1>
+        <img src="<%= user.photos[0].value %>" alt="" class="img-fluid rounded-circle">
+        <h1 class="text-light"><%= user.displayName %></h1>
+        <h1 class="text-white"><%= user.username %></h1>
         <div class="social-links mt-3 text-center">
           <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
           <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
@@ -49,6 +51,10 @@
           <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
         </div>
       </div>
+      <% } else { %>
+        <!-- Handle the case when user data is not available -->
+        <p>No user data available.</p>
+      <% } %>
 
       <nav id="navbar" class="nav-menu navbar">
         <ul>
@@ -66,7 +72,7 @@
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
     <div class="hero-container" data-aos="fade-in">
-      <h1>Diya Panchal</h1>
+      <h1><%= user.username %></h1>
       <p>I'm <span class="typed" data-typed-items="Designer, Developer"></span></p>
     </div>
   </section>
