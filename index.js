@@ -30,7 +30,12 @@ passport.use(new GitHubStrategy({
 },
 function(accessToken, refreshToken, profile, done) {
   // Store user information in session or database as needed
-  return done(null, profile);
+  const user = {
+    accessToken: accessToken,
+    profile: profile
+  };
+  console.log(user.profile)
+  return done(null, user);
 }
 ));
 
@@ -56,11 +61,32 @@ app.get('/auth/github/callback',
   }
 );
 
-app.get('/user-details', (req, res) => {
-  // Fetch user details using the obtained access token (req.user)
-  // Render an index.ejs page with user details
-  res.render('index.ejs', { user: req.user });
-});
+app.get('/user-details', async (req, res) => {
+    try {
+      if (!req.user || !req.user.accessToken) {
+        throw new Error('Access token not available');
+      }
+  
+      const accessToken = req.user.accessToken;
+      const headers = {
+        Authorization: `token ${accessToken}`
+      };
+  
+      const userDetailsResponse = await axios.get('https://api.github.com/user', { headers });
+      const user = userDetailsResponse.data;
+  
+      const reposResponse = await axios.get(`https://api.github.com/users/${user.login}/repos`, { headers });
+      const repositories = reposResponse.data;
+  
+      res.render('index.ejs', { user, repositories });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error.message || 'Error fetching user details');
+    }
+  });
+  
+  
+  
 
 // Start the server
 app.listen(PORT, () => {
