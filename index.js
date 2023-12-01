@@ -6,7 +6,7 @@ const app = express();
 
 // Set up environment variables or add them to a .env file
 const PORT = process.env.PORT || 3000;
-const GITHUB_USERNAME = process.env.GITHUB_USERNAME; // Your GitHub username
+const GITHUB_USERNAME = process.env.HandyWork1; // Your GitHub username
 
 // Route to fetch user repositories from GitHub API
 app.get('/api/github/repos', async (req, res) => {
