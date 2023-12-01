@@ -1,5 +1,6 @@
 // app.js
 const express = require('express');
+const path = require('path');
 const axios = require('axios');
 const passport = require('passport');
 const session = require('express-session');
