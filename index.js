@@ -13,6 +13,9 @@ const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 const SESSION_SECRET = process.env.SESSION_SECRET;
 
+// Set up how static files are served
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Configure session and Passport
 app.use(session({ secret: SESSION_SECRET, resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
