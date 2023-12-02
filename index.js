@@ -61,6 +61,7 @@ app.get('/auth/github/callback',
   }
 );
 
+
 app.get('/user-details', async (req, res) => {
     try {
       if (!req.user || !req.user.accessToken) {
@@ -85,7 +86,17 @@ app.get('/user-details', async (req, res) => {
     }
   });
   
-  
+// Logout script
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error(err);
+      return res.redirect('/');
+    }
+    res.clearCookie('connect.sid'); // clear the session cookie
+    res.redirect('/'); // Redirect to the login page
+  });
+});
   
 
 // Start the server
