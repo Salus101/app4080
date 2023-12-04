@@ -9,6 +9,7 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+
 /* Theme */
 :root {
   --clr-body-bg: hsl(0 0% 90%);
@@ -44,6 +45,7 @@ body {
   color: #272829;
 } */
 
+
 a {
   color: #149ddd;
   text-decoration: none;
@@ -54,7 +56,9 @@ a:hover {
   text-decoration: none;
 }
 
+
 /* 
+
 h1,
 h2,
 h3,
@@ -62,6 +66,7 @@ h4,
 h5,
 h6 {
   font-family: "Raleway", sans-serif;
+
 } */
 
 /* Theme-specific overrides */
@@ -121,6 +126,7 @@ h6 {
   --clr-text: hsl(209 50% 90%);
   --clr-heading: hsl(209 50% 80%);
 }
+
 
 
 /*--------------------------------------------------------------

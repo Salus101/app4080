@@ -259,6 +259,7 @@
    */
   new PureCounter();
 
+
 })()
 
 const colorThemes = document.querySelectorAll('[name="theme"]');
@@ -289,3 +290,4 @@ colorThemes.forEach((themeOption) => {
 });
 
 document.onload = setTheme();
+
