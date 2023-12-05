@@ -44,6 +44,3 @@ Feel free to explore the features and functionalities. You can log in with your 
 
 We welcome contributions from the community! If you find a bug or have a feature request, please open an issue. If you'd like to contribute, fork the repository and submit a pull request.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE.md).
