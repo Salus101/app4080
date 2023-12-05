@@ -29,10 +29,10 @@ To get started with GitHub Portfolio Aggregator, follow these steps:
 
 A big thank you to the contributors who have made this project possible:
 
-- [Contributor 1](https://github.com/HandyWork1)
-- [Contributor 2](https://github.com/Salus101)
-- [Contributor 3](https://github.com/iankariuki)
-- [Contributor 3](https://github.com/diya-panchal)
+- [HandyWork1](https://github.com/HandyWork1)
+- [Salus101](https://github.com/Salus101)
+- [iankariuki](https://github.com/iankariuki)
+- [diya-panchal](https://github.com/diya-panchal)
 
 ## Demo
 
