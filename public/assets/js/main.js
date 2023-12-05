@@ -262,32 +262,37 @@
 
 })()
 
-const colorThemes = document.querySelectorAll('[name="theme"]');
-
 // store theme
 const storeTheme = function (theme) {
   localStorage.setItem("theme", theme);
 };
 
 // set theme when visitor returns
-const setTheme = function () {
-  const activeTheme = localStorage.getItem("theme");
-  colorThemes.forEach((themeOption) => {
-    if (themeOption.id === activeTheme) {
-      themeOption.checked = true;
-    }
-  });
-  // fallback for no :has() support
-  document.documentElement.className = activeTheme;
+const setTheme = function (theme) {
+  storeTheme(theme);
+  document.documentElement.className = theme;
 };
 
-colorThemes.forEach((themeOption) => {
-  themeOption.addEventListener("click", () => {
-    storeTheme(themeOption.id);
-    // fallback for no :has() support
-    document.documentElement.className = themeOption.id;
+// Retrieve and apply the saved theme on load
+const applySavedTheme = function () {
+  const activeTheme = localStorage.getItem("theme");
+  if (activeTheme) {
+    document.documentElement.className = activeTheme;
+  }
+};
+
+// Add event listeners to the dropdown items
+const dropdownItems = document.querySelectorAll('.dropdown-item');
+dropdownItems.forEach((item) => {
+  item.addEventListener("click", function () {
+    const selectedTheme = item.textContent.toLowerCase();
+    setTheme(selectedTheme);
   });
 });
 
-document.onload = setTheme();
+// Apply saved theme on page load
+window.onload = applySavedTheme();
+
+
+
 
