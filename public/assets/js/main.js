@@ -260,3 +260,36 @@
   new PureCounter();
 
 })()
+
+// store theme
+const storeTheme = function (theme) {
+  localStorage.setItem("theme", theme);
+};
+
+// set theme when visitor returns
+const setTheme = function (theme) {
+  storeTheme(theme);
+  document.documentElement.className = theme;
+};
+
+// Retrieve and apply the saved theme on load
+const applySavedTheme = function () {
+  const activeTheme = localStorage.getItem("theme");
+  if (activeTheme) {
+    document.documentElement.className = activeTheme;
+  }
+};
+
+// Add event listeners to the dropdown items
+const dropdownItems = document.querySelectorAll('.dropdown-item');
+dropdownItems.forEach((item) => {
+  item.addEventListener("click", function () {
+    const selectedTheme = item.textContent.toLowerCase();
+    setTheme(selectedTheme);
+  });
+});
+
+// Apply saved theme on page load
+window.onload = applySavedTheme();
+
+
