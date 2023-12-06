@@ -24,7 +24,11 @@
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
+  <!-- Github Activity Plugin Dependencies -->
+  <link rel="stylesheet" href="https://unpkg.com/octicons@4.4.0/build/font/octicons.css">
+  <link rel="stylesheet" href="https://unpkg.com/github-activity-feed@latest/dist/github-activity.min.css">
+
+  <!-- Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
 </head>
@@ -49,7 +53,7 @@
         <h1 class="text-white"><%= user.login %></h1>
         <div class="social-links mt-3 text-center">
           <a href="<%= user.html_url %>" class="twitter" target="_blank" rel="noopener noreferrer">
-            <i class="bx bxl-github"></i> <!-- Assuming bx bxl-github represents GitHub icon -->
+            <i class="bx bxl-github"></i> 
           </a>
           <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
           <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
@@ -66,11 +70,10 @@
         <ul>
           <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
           <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
-          <!-- <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li> -->
           <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Portfolio</span></a></li>
+          <li><a href="#github-activity" class="nav-link scrollto"><i class="bi bi-github"></i> <span>GitHub Activity</span></a></li>
           <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
           <li><a href="/logout" class="nav-link"><i class="bx bx-log-out-circle"></i> <span>Logout</span></a></li>
-          <!-- <li><a href="#services" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Services</span></a></li> -->
         </ul>
       </nav><!-- .nav-menu -->
     </div>
@@ -226,6 +229,21 @@
       </div>
     </section><!-- End Portfolio Section -->
 
+    <div id="userData" data-user='<%- JSON.stringify(user) %>' style="display: none;"></div>
+
+    <!-- Update your index.ejs to display GitHub events -->
+    <section id="github-activity" class="github-activity">
+      <div class="container">
+        <div class="section-title">
+          <h2>GitHub Activity</h2>
+        </div>
+        <div class="row">
+          <div id="feed"></div>
+        </div>
+      </div>
+    </section>
+
+
 
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
@@ -249,7 +267,11 @@
               <div class="email">
                 <i class="bi bi-envelope"></i>
                 <h4>Email:</h4>
-                <p>diya.pnchl13@gmail.com</p>
+                <% if (user.emails && user.emails.length > 0) { %>
+                <p><%= user.emails[0].value %></p>
+                <% } else { %>
+                <p>No email available</p>
+                <%}%>
               </div>
 
               <div class="phone">
@@ -258,13 +280,14 @@
                 <p>+254736621281</p>
               </div>
 
-              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.889960753607!2d36.81989931534782!3d-1.2633680359990405!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f165eb5289ff7%3A0xf0d8c76c4f79c39c!2sParklands%2C%20Nairobi%2C%20Kenya!5e0!3m2!1sen!2ske!4v1539943755621
+              " frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
             </div>
 
           </div>
 
           <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form action="#" method="post" role="form" class="php-email-form">
               <div class="row">
                 <div class="form-group col-md-6">
                   <label for="name">Your Name</label>
@@ -319,10 +342,39 @@
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/typed.js/typed.umd.js"></script>
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  
+  <!-- Github Activity Plugin Dependencies -->
+  <script type="text/javascript" src="https://unpkg.com/mustache@4.2.0/mustache.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/github-activity-feed@latest/dist/github-activity.min.js"></script>
 
-  <!-- Template Main JS File -->
+  <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <!-- Github Activity Plugin Initializing -->
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+      const userDataElement = document.getElementById('userData');
+      const userData = JSON.parse(userDataElement.getAttribute('data-user'));
+
+      // Retrieve the username from the user object and initialize feeds
+      if (userData) { 
+        initializeFeeds(userData.login);
+      }
+      // Function to initialize feeds
+      function initializeFeeds(username) {
+        // GitHubActivity.feed for the "All" feed
+        GitHubActivity.feed({
+          username: username,
+          repository: "",
+          selector: "#feed",
+          limit: 20,
+          filter: function (event) {
+            return true; // Display all events
+          },
+        });
+      }
+    });
+  </script>
 
 </body>
 

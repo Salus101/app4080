@@ -34,7 +34,6 @@ function(accessToken, refreshToken, profile, done) {
     accessToken: accessToken,
     profile: profile
   };
-  console.log(user.profile)
   return done(null, user);
 }
 ));
@@ -72,14 +71,19 @@ app.get('/user-details', async (req, res) => {
       const headers = {
         Authorization: `token ${accessToken}`
       };
-  
+      // Fetch Github details for the user
       const userDetailsResponse = await axios.get('https://api.github.com/user', { headers });
       const user = userDetailsResponse.data;
-  
+
+      // Fetch GitHub events for the user
+      const eventsResponse = await axios.get(`https://api.github.com/users/${user.login}/events`, { headers });
+      const events = eventsResponse.data;
+      
+      // Fetch GitHub repos for the user
       const reposResponse = await axios.get(`https://api.github.com/users/${user.login}/repos`, { headers });
       const repositories = reposResponse.data;
   
-      res.render('index.ejs', { user, repositories });
+      res.render('index.ejs', { user, events, repositories });
     } catch (error) {
       console.error(error);
       res.status(500).send(error.message || 'Error fetching user details');
