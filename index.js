@@ -62,33 +62,62 @@ app.get('/auth/github/callback',
 
 
 app.get('/user-details', async (req, res) => {
-    try {
-      if (!req.user || !req.user.accessToken) {
-        throw new Error('Access token not available');
-      }
-  
-      const accessToken = req.user.accessToken;
-      const headers = {
-        Authorization: `token ${accessToken}`
-      };
-      // Fetch Github details for the user
-      const userDetailsResponse = await axios.get('https://api.github.com/user', { headers });
-      const user = userDetailsResponse.data;
-
-      // Fetch GitHub events for the user
-      const eventsResponse = await axios.get(`https://api.github.com/users/${user.login}/events`, { headers });
-      const events = eventsResponse.data;
-      
-      // Fetch GitHub repos for the user
-      const reposResponse = await axios.get(`https://api.github.com/users/${user.login}/repos`, { headers });
-      const repositories = reposResponse.data;
-  
-      res.render('index.ejs', { user, events, repositories });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send(error.message || 'Error fetching user details');
+  try {
+    if (!req.user || !req.user.accessToken) {
+      throw new Error('Access token not available');
     }
-  });
+
+    const accessToken = req.user.accessToken;
+    const headers = {
+      Authorization: `token ${accessToken}`,
+      'Accept': 'application/vnd.github.v3+json'
+    };
+
+    // Fetch Github details for the user
+    const userDetailsResponse = await axios.get('https://api.github.com/user', { headers });
+    const user = userDetailsResponse.data;
+
+    // Fetch repositories for the authenticated user
+    const reposResponse = await axios.get('https://api.github.com/user/repos', { headers });
+    const repositories = reposResponse.data;
+
+    const languages = {};
+
+    // Loop through each repository to get language data
+    for (const repo of repositories) {
+      const languagesUrl = repo.languages_url;
+      const langResponse = await axios.get(languagesUrl, { headers });
+      const langData = langResponse.data;
+
+      // Aggregate languages used in each repository
+      for (const lang in langData) {
+        if (lang in languages) {
+          languages[lang] += langData[lang];
+        } else {
+          languages[lang] = langData[lang];
+        }
+      }
+    }
+
+    const totalBytes = Object.values(languages).reduce((acc, val) => acc + val, 0);
+
+    // Calculate percentage for each language
+    const percentages = {};
+    for (const lang in languages) {
+      percentages[lang] = (languages[lang] / totalBytes) * 100;
+    }
+
+    // Sort languages by percentage
+    const sortedPercentages = Object.entries(percentages)
+      .sort((a, b) => b[1] - a[1]);
+
+    res.render('index.ejs', { user, repositories, languages: sortedPercentages });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error.message || 'Error fetching user details');
+  }
+});
+
   
 // Logout script
 app.get('/logout', (req, res) => {
