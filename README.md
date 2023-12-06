@@ -36,7 +36,7 @@ A big thank you to the contributors who have made this project possible:
 
 ## Demo
 
-Check out the live demo of the GitHub Portfolio Aggregator: [Demo Link](https://your-demo-link.com)
+Check out the live demo of the GitHub Portfolio Aggregator: [Demo Link](https://soft-baklava-0a9558.netlify.app/)
 
 Feel free to explore the features and functionalities. You can log in with your GitHub account and experience the interactive portfolio.
 
