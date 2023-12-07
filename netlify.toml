@@ -1,0 +1,3 @@
+[build]
+  command = "node index.js"  # Your Node.js server entry point
+  publish = "/"               # Serve files from the root directory
