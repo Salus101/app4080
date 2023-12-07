@@ -83,7 +83,7 @@
         </div>
       </div>
 
-      <nav id="navbar" class="nav-menu navbar">
+      <nav id="navbar" class="nav-menu navbar pt-1">
         <ul>
           <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
           <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
@@ -168,53 +168,25 @@
 
         <div class="section-title">
           <h2>Skills</h2>
-          <p> I possess a comprehensive skill set in programming languages, with a particular focus on proficiency in Python, C#, and C++. My expertise extends to database management, where I am adept at utilizing SQL*Plus. Additionally, I bring a solid understanding of web technologies, including HTML, CSS, and JavaScript. Leveraging my experience in software development, I have successfully developed native mobile applications using Java for the Android platform. This combination of programming languages, database management, and mobile application development reflects my commitment to staying abreast of evolving technologies and my ability to contribute effectively to diverse technical projects.</p>
+          <p>I possess a comprehensive skill set in programming languages, with a particular focus on proficiency in Python, C#, and C++. My expertise extends to database management, where I am adept at utilizing SQL*Plus. Additionally, I bring a solid understanding of web technologies, including HTML, CSS, and JavaScript. Leveraging my experience in software development, I have successfully developed native mobile applications using Java for the Android platform. This combination of programming languages, database management, and mobile application development reflects my commitment to staying abreast of evolving technologies and my ability to contribute effectively to diverse technical projects.</p>
         </div>
 
         <div class="row skills-content">
-
           <div class="col-lg-6" data-aos="fade-up">
-
-            <div class="progress">
-              <span class="skill">HTML <i class="val">90%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+            <% for (const [language, percentage] of languages) { %>
+              <div class="progress">
+                <span class="skill"><%= language %> <i class="val"><%= percentage.toFixed(2) %>%</i></span>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentage %>" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
               </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">Python <i class="val">80%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">CSS <i class="val">70%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">C#<i class="val">60%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">JavaScript <i class="val">50%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
+            <% } %>
           </div>
         </div>
 
       </div>
     </section><!-- End Skills Section -->
+
 
     <!-- ======= Portfolio Section ======= -->
     <section id="portfolio" class="portfolio section-bg">
