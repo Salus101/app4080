@@ -17,13 +17,15 @@ To get started with GitHub Portfolio Aggregator, follow these steps:
 3. Create an `.env` file in the root of the project and add the following:
 
     ```env
+    PORT=3000
     REACT_APP_GITHUB_CLIENT_ID=your-github-client-id
     REACT_APP_GITHUB_CLIENT_SECRET=your-github-client-secret
+    SESSION_SECRET=your-session-secret
     ```
 
     Replace `your-github-client-id` and `your-github-client-secret` with the credentials from your GitHub OAuth application.
 
-5. Run the application: `npm start`
+5. Run the application: `node index.js`
 
 ## Contributors
 
